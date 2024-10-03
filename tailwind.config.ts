@@ -13,6 +13,7 @@ const config: Config = {
       colors: {
         'main-background-color': '#131415',
         'sidebar-color': '#1e1f20',
+        'main-card-color': '#1c1d1e',
         'card-color': "#1c1d1e",
         'card-color-2': '#131415'
       },
