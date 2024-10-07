@@ -3,10 +3,12 @@
 import Sidebar from '@/components/Sidebar';
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from 'recharts';
 
 const Dashboard = () => {
+    const [linkToken, setLinkToken] = useState<string | null>(null);
+
     const chartConfig = {
         net_worth: {
             label: "Net Worth",
@@ -75,6 +77,24 @@ const Dashboard = () => {
 
     const toggleSidebar = () => setIsOpen(!isOpen);
 
+    useEffect(() => {
+        const createLinkToken = async() => {
+            try{
+                const res = await fetch('/api/create_link_token', {
+                    method: 'POST',
+                });
+
+                const data = await res.json();
+
+                setLinkToken(data.link_token);
+            }catch(err){
+                console.error("Error fetching link token: ", err);
+            }
+        };
+
+        createLinkToken();
+    }, [])
+
     return (
         <div className='bg-main-background-color min-h-screen'>
             <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} toggleSideBar={toggleSidebar}/>
@@ -84,9 +104,9 @@ const Dashboard = () => {
                 <div className="flex items-center justify-between">
                     <h1 className='text-5xl ml-4 p-6'>Dashboard</h1>
                     
-                    <button href="/" className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto'>
+                    <Link href="/" className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto'>
                         Add
-                    </button>
+                    </Link>
                 </div>
 
                 {/* Net Worth & Categories */}
