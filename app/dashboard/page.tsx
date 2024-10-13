@@ -7,8 +7,6 @@ import React, { useEffect, useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from 'recharts';
 
 const Dashboard = () => {
-    const [linkToken, setLinkToken] = useState<string | null>(null);
-
     const chartConfig = {
         net_worth: {
             label: "Net Worth",
@@ -76,24 +74,6 @@ const Dashboard = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleSidebar = () => setIsOpen(!isOpen);
-
-    useEffect(() => {
-        const createLinkToken = async() => {
-            try{
-                const res = await fetch('/api/create_link_token', {
-                    method: 'POST',
-                });
-
-                const data = await res.json();
-
-                setLinkToken(data.link_token);
-            }catch(err){
-                console.error("Error fetching link token: ", err);
-            }
-        };
-
-        createLinkToken();
-    }, [])
 
     return (
         <div className='bg-main-background-color min-h-screen'>
