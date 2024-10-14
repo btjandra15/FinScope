@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,10 +8,26 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { login } from "@/lib/auth-actions";
 import SidePicture from "../../../../public/images/loginSidePicture.jpg";
+import { useState } from "react";
 
 export const description = "A login page with two columns. The first column has the login form with email and password. There's a Forgot your passwork link and a link to sign up if you do not have an account. The second column has a cover image."
 
 export function LoginForm() {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSubmit = async(e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage(null);
+
+    const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+    const result = await login(formData);
+
+    if(result?.error){
+      setErrorMessage(result.error.message);
+    }
+  }
+
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
       <div className="flex items-center justify-center py-12">
@@ -20,6 +38,10 @@ export function LoginForm() {
             <p className="text-balance text-muted-foreground">
               Enter your email below to login to your account
             </p>
+
+            {errorMessage && (
+              <div className="text-red-500 text-center mb-4">{errorMessage}</div>
+            )}
           </div>
 
           <form action="">

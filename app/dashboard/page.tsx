@@ -2,7 +2,9 @@
 
 import Sidebar from '@/components/Sidebar';
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from 'recharts';
 
@@ -72,8 +74,31 @@ const Dashboard = () => {
     ];
 
     const [isOpen, setIsOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState<any>(null);
+    const router = useRouter();
 
     const toggleSidebar = () => setIsOpen(!isOpen);
+
+    useEffect(() => {
+        const checkUserSession = async() => {
+            const supabase = createClient();
+            const { data: { user } } = await supabase.auth.getUser();
+
+            if(!user){
+                router.push('/login');
+            }else{
+                setLoading(false);
+                setUser(user);
+            }
+        }
+
+        checkUserSession();
+    }, [router]);
+
+    if(loading){
+        return <div>Loading...</div>
+    }
 
     return (
         <div className='bg-main-background-color min-h-screen'>
@@ -83,6 +108,8 @@ const Dashboard = () => {
             <div className={`flex-1 p-8 text-white transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-0'}`}>
                 <div className="flex items-center justify-between">
                     <h1 className='text-5xl ml-4 p-6'>Dashboard</h1>
+
+                    <h2 className='text-2xl mt-3'>Welcome back, {user.user_metadata.full_name}</h2>
                     
                     <Link href="/" className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto'>
                         Add

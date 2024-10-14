@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { MdDashboard, MdInsights } from 'react-icons/md';
 import { TbReportSearch } from 'react-icons/tb';
 import { PiGearSixFill } from 'react-icons/pi';
+import { FaSignOutAlt } from 'react-icons/fa';
+import { signout } from '@/lib/auth-actions';
 
 interface SidebarProps{
     isOpen: boolean;
@@ -25,19 +27,26 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, setIsOpen}) => {
             name: "Insights",
             icon: <MdInsights/>,
             alt: "Insights Icon",
-            route: "/",
+            route: "/insights",
         },
         {
             name: "Reports",
             icon: <TbReportSearch/>,
             alt: "Reports Icon",
-            route: "/",
+            route: "/reports",
+        },
+        {
+            name: "Sign out",
+            icon: <FaSignOutAlt/>,
+            alt: "Signout Icon",
+            route: "/logout",
+            onClick: () => signout()
         },
         {
             name: "Settings",
             icon: <PiGearSixFill/>,
             alt: "Settings Icon",
-            route: "/",
+            route: "/settings",
         },
     ]
 
@@ -53,7 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, setIsOpen}) => {
                     {links.map((link, index) => {
                         return(
                             <div className="mt-10 flex items-center" key={index}>
-                                <Link href="/" className='text-white hover:text-gray-300 flex items-center'>
+                                <Link href={link.route} className='text-white hover:text-gray-300 flex items-center' onClick={link.onClick}>
                                     {link.icon}
                                     <span className='ml-2'>{link.name}</span>
                                 </Link>
