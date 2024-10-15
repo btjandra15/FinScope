@@ -116,7 +116,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Finish auth setup allowing the user to sign up & login
+- [X] Finish auth setup allowing the user to sign up & login
 - [ ] Connect app with Plaid and display real bank information
 
 See the [open issues](https://github.com/btjandra15/FinScope/issues) for a full list of proposed features (and known issues).
