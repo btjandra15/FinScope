@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from 'recharts';
+import { usePlaidLink } from 'react-plaid-link';
+import axios from 'axios';
 
 const Dashboard = () => {
     const chartConfig = {
@@ -73,12 +75,38 @@ const Dashboard = () => {
         { amount: 500.0, detail: 'Account Barclays 1948', date: '13 Dec', time: '18:03' },
     ];
 
+    const [linkToken, setLinkToken] = useState<string | null>(null);
+    const [accounts, setAccounts] = useState<any[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
     const router = useRouter();
 
     const toggleSidebar = () => setIsOpen(!isOpen);
+
+    const onSuccess = async(public_token: string) => {
+        try{
+            const res = await axios.post('/api/plaid/exchange_public_token', {
+                public_token,
+            });
+
+            const accessToken = res.data.access_token;
+            console.log("Access Token: ", accessToken);
+
+            const accountsRes = await axios.post('/api/plaid/get_accounts', {
+                access_token: accessToken,
+            });
+
+            setAccounts(accountsRes.data);
+        }catch(error){
+            console.log("Error exchanging public token or fetching accounts: ", error);
+        };
+    };
+
+    const { open, ready } = usePlaidLink({
+        token: linkToken!,
+        onSuccess
+    });
 
     useEffect(() => {
         const checkUserSession = async() => {
@@ -93,7 +121,22 @@ const Dashboard = () => {
             }
         }
 
+        const createLinkToken = async() => {
+            try{
+                const res = await axios.post('/api/plaid/create_link_token', {
+                    client_user_id: process.env.PLAID_CLIENT_ID,
+                });
+
+                const linkToken = res.data.link_token;
+
+                setLinkToken(linkToken);
+            }catch(error){
+                console.log("Error creating link token: ", error);
+            };
+        };
+
         checkUserSession();
+        createLinkToken();
     }, [router]);
 
     if(loading){
@@ -106,14 +149,15 @@ const Dashboard = () => {
 
             {/* Main Content */}
             <div className={`flex-1 p-8 text-white transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-0'}`}>
+                {/* Header  */}
                 <div className="flex items-center justify-between">
                     <h1 className='text-5xl ml-4 p-6'>Dashboard</h1>
 
-                    <h2 className='text-2xl mt-3'>Welcome back, {user.user_metadata.full_name}</h2>
-                    
-                    <Link href="/" className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto'>
-                        Add
-                    </Link>
+                    {linkToken && (
+                        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto cursor-pointer' onClick={() => open()} disabled={!ready}>
+                            Connect
+                        </button>
+                    )}
                 </div>
 
                 {/* Net Worth & Categories */}
@@ -176,11 +220,23 @@ const Dashboard = () => {
                     {/* Assets Card */}
                     <div className="bg-dark p-6 rounded-lg border-2 border-gray-500">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className='text-xl font-semibold'>Assets</h2>
+                            <h2 className='text-xl font-semibold'>Accounts</h2>
                             <button className='text-gray-400 hover:text-white transition-colors'>View All</button>
                         </div>
 
-                        <div className="grid grid-cols-3 gap-3 text-gray-400 font-semibold mb-4">
+                        {accounts.length > 0 ? (
+                            accounts.map((account) => (
+                                <div className="" key={account.account_id}>
+                                    <h3>{account.name}</h3>
+                                    <p>{account.subtype} - {account.mask}</p>
+                                    <p>Balance: ${account.balances.current}</p>
+                                </div>
+                            ))
+                        ): (
+                            <p>No accounts connected</p>
+                        )}
+
+                        {/* <div className="grid grid-cols-3 gap-3 text-gray-400 font-semibold mb-4">
                             <div className="">Banks</div>
                             <div className="">Change</div>
                             <div className="">Value</div>
@@ -244,7 +300,7 @@ const Dashboard = () => {
                                     </li>
                                 )
                             })}
-                        </ul>
+                        </ul> */}
                     </div>
 
                     {/* Transactions Card */}
