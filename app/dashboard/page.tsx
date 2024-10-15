@@ -48,18 +48,6 @@ const Dashboard = () => {
         { month: "December", net_worth: 214, assets: 140 },
     ]
 
-    const banks = [
-        { account: 'Bank of America', change: 500.0, cost: 1000.0, value: 1500.0, logo: "" },
-        { account: 'Capital One', change: -300.0, cost: 800.0, value: 500.0, logo: ""},
-        { account: 'America Express', change: 200.0, cost: 400.0, value: 600.0, logo: "" },
-    ];
-
-    const brokerages = [
-        { account: 'Robinhood', change: 500.0, cost: 1000.0, value: 1500.0, logo: "" },
-        { account: 'Fidelity', change: -300.0, cost: 800.0, value: 500.0, logo: ""},
-        { account: 'Vanguard', change: 200.0, cost: 400.0, value: 600.0, logo: "" },
-    ];
-
     const liabilities = [
         { account: 'Bank of America', change: 500.0, cost: 1000.0, value: 1500.0, logo: "" },
         { account: 'Capital One', change: -300.0, cost: 800.0, value: 500.0, logo: ""},
@@ -226,10 +214,14 @@ const Dashboard = () => {
 
                         {accounts.length > 0 ? (
                             accounts.map((account) => (
-                                <div className="" key={account.account_id}>
-                                    <h3>{account.name}</h3>
-                                    <p>{account.subtype} - {account.mask}</p>
-                                    <p>Balance: ${account.balances.current}</p>
+                                <div className="mb-5" key={account.account_id}>
+                                    <div className="p-5 bg-main-card-color rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+                                        <h3 className="text-lg font-semibold text-white">{account.name}</h3>
+                                        <p className="text-md text-white mb-2">
+                                            {account.subtype} - <span className="font-mono text-gray-500">{account.mask}</span>
+                                        </p>
+                                        <p className="font-medium text-lg text-green-600">Balance: ${account.balances.current}</p>
+                                    </div>
                                 </div>
                             ))
                         ): (
