@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import React, { useState } from 'react'
-import Logo from "../public/images/logo.jpg"
+import Logo from "../public/images/logo.png"
 import Image from 'next/image';
 import { MdDashboard, MdInsights } from 'react-icons/md';
 import { TbReportSearch } from 'react-icons/tb';

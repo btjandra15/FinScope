@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import Logo from "../public/images/logo.jpg";
+import Logo from "../public/images/logo.png";
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -61,7 +61,7 @@ const Nav = () => {
                                 Login
                             </Link>
 
-                            <Link href="/login" className='bg-gray-600 text-white py-2 px-4 rounded-lg hover:text-gray-400'>
+                            <Link href="/signup" className='bg-gray-600 text-white py-2 px-4 rounded-lg hover:text-gray-400'>
                                 Signup
                             </Link>
                         </div>

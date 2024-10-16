@@ -2,13 +2,14 @@
 
 import Sidebar from '@/components/Sidebar';
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from 'recharts';
 import { usePlaidLink } from 'react-plaid-link';
 import axios from 'axios';
+import { createClient } from '@/utils/supabase/client';
+import Accounts from '@/components/Accounts';
 
 const Dashboard = () => {
     const chartConfig = {
@@ -48,12 +49,6 @@ const Dashboard = () => {
         { month: "December", net_worth: 214, assets: 140 },
     ]
 
-    const liabilities = [
-        { account: 'Bank of America', change: 500.0, cost: 1000.0, value: 1500.0, logo: "" },
-        { account: 'Capital One', change: -300.0, cost: 800.0, value: 500.0, logo: ""},
-        { account: 'America Express', change: 200.0, cost: 400.0, value: 600.0, logo: "" },
-    ];
-
     const transactions = [
         { amount: 500.0, detail: 'Account Barclays 1948', date: '3 Jan', time: '15:41' },
         { amount: 4300.0, detail: 'Account Barclays 1948', date: '2 Jan', time: '20:53' },
@@ -64,28 +59,32 @@ const Dashboard = () => {
     ];
 
     const [linkToken, setLinkToken] = useState<string | null>(null);
-    const [accounts, setAccounts] = useState<any[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
     const router = useRouter();
+    const supabase = createClient();
 
     const toggleSidebar = () => setIsOpen(!isOpen);
 
     const onSuccess = async(public_token: string) => {
         try{
+            if(!user.id){
+                console.log("User is not authenticated! Redirecting...");
+                router.push('/login');
+                return;
+            }
+
             const res = await axios.post('/api/plaid/exchange_public_token', {
                 public_token,
             });
 
             const accessToken = res.data.access_token;
-            console.log("Access Token: ", accessToken);
 
-            const accountsRes = await axios.post('/api/plaid/get_accounts', {
+            await axios.post('/api/plaid/add_accounts', {
+                userID: user.id,
                 access_token: accessToken,
             });
-
-            setAccounts(accountsRes.data);
         }catch(error){
             console.log("Error exchanging public token or fetching accounts: ", error);
         };
@@ -125,7 +124,7 @@ const Dashboard = () => {
 
         checkUserSession();
         createLinkToken();
-    }, [router]);
+    }, []);
 
     if(loading){
         return <div>Loading...</div>
@@ -212,87 +211,7 @@ const Dashboard = () => {
                             <button className='text-gray-400 hover:text-white transition-colors'>View All</button>
                         </div>
 
-                        {accounts.length > 0 ? (
-                            accounts.map((account) => (
-                                <div className="mb-5" key={account.account_id}>
-                                    <div className="p-5 bg-main-card-color rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
-                                        <h3 className="text-lg font-semibold text-white">{account.name}</h3>
-                                        <p className="text-md text-white mb-2">
-                                            {account.subtype} - <span className="font-mono text-gray-500">{account.mask}</span>
-                                        </p>
-                                        <p className="font-medium text-lg text-green-600">Balance: ${account.balances.current}</p>
-                                    </div>
-                                </div>
-                            ))
-                        ): (
-                            <p>No accounts connected</p>
-                        )}
-
-                        {/* <div className="grid grid-cols-3 gap-3 text-gray-400 font-semibold mb-4">
-                            <div className="">Banks</div>
-                            <div className="">Change</div>
-                            <div className="">Value</div>
-                        </div>
-
-                        <ul className='space-y-5'>
-                            {banks.map((bank, index) => {
-                                return(
-                                    <li key={index} className='grid grid-cols-3 gap-3 text-gray-300'>
-                                        <div className="">{bank.account}</div>
-
-                                        <div className={`font-medium ${bank.change > 0 ? 'text-green-400' : "text-red-400"}`}>
-                                            {bank.change > 0 ? `+$${bank.change}` : `$${bank.change}`}
-                                        </div>
-
-                                        <div className="">{`$${bank.value}`}</div>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-
-                        <div className="grid grid-cols-3 gap-3 text-gray-400 font-semibold mb-4 mt-5">
-                            <div className="">Brokerages</div>
-                            <div className="">Change</div>
-                            <div className="">Value</div>
-                        </div>
-
-                         <ul className='space-y-5'>
-                            {brokerages.map((brokerage, index) => {
-                                return(
-                                    <li key={index} className='grid grid-cols-3 gap-3 text-gray-300'>
-                                        <div className="">{brokerage.account}</div>
-
-                                        <div className={`font-medium ${brokerage.change > 0 ? 'text-green-400' : "text-red-400"}`}>
-                                            {brokerage.change > 0 ? `+$${brokerage.change}` : `$${brokerage.change}`}
-                                        </div>
-
-                                        <div className="">{`$${brokerage.value}`}</div>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-
-                        <div className="grid grid-cols-3 gap-3 text-gray-400 font-semibold mb-4 mt-5">
-                            <div className="">Liabilities</div>
-                            <div className="">Change</div>
-                            <div className="">Value</div>
-                        </div>
-
-                        <ul className='space-y-5'>
-                            {liabilities.map((liability, index) => {
-                                return(
-                                    <li key={index} className='grid grid-cols-3 gap-3 text-gray-300'>
-                                        <div className="">{liability.account}</div>
-
-                                        <div className={`font-medium ${liability.change > 0 ? 'text-green-400' : "text-red-400"}`}>
-                                            {liability.change > 0 ? `+$${liability.change}` : `$${liability.change}`}
-                                        </div>
-
-                                        <div className="">{`$${liability.value}`}</div>
-                                    </li>
-                                )
-                            })}
-                        </ul> */}
+                        <Accounts user={user}/>
                     </div>
 
                     {/* Transactions Card */}
