@@ -9,26 +9,24 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/btjandra15/FinScope">
+    <img src="/public/images/logo.jpg" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">FinScope</h3>
   <p align="center">
     A website that will track a user's net worth made using Next.js
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/btjandra15/FinScope"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://github.com/btjandra15/FinScope">View Demo</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/btjandra15/FinScope/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/btjandra15/FinScope/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -56,11 +54,8 @@
   </ol>
 </details>
 
-
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 This website is a net worth tracking app that allows the user to connect their banks, brokerages, credit cards, etc displaying all of the information in one place and also giving insight into their spending habits, income to spending ratio, net worth growth predictions, etc 
@@ -79,13 +74,11 @@ This website is a net worth tracking app that allows the user to connect their b
 To get a local copy of this project, simply follow the steps below
 
 ### Prerequisites
-
 * npm
-  
   ```sh
   npm install npm@latest -g
   ```
-
+  
 ### Installation
 1. Clone the repo
    ```sh
