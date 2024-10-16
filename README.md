@@ -10,7 +10,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/btjandra15/FinScope">
-    <img src="/public/images/logo.jpg" alt="Logo" width="80" height="80">
+    <img src="/public/images/logo.png" alt="Logo" width="100" height="100">
   </a>
 
 <h3 align="center">FinScope</h3>
@@ -173,7 +173,7 @@ Project Link: [https://github.com/btjandra15/FinScope](https://github.com/btjand
 [license-url]: https://github.com/btjandra15/FinScope/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/btjandra15
-[product-screenshot]: images/screenshot.png
+[product-screenshot]: /public/images/productName.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [Supabase]: https://shields.io/badge/supabase-black?logo=supabase&style=for-the-badge
