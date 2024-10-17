@@ -5,49 +5,59 @@ import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTool
 import Link from 'next/link';
 import { redirect, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { Bar, BarChart, CartesianGrid, Tooltip, XAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, LabelList, Line, LineChart, Pie, PieChart, PolarAngleAxis, RadarChart, Tooltip, XAxis } from 'recharts';
 import { usePlaidLink } from 'react-plaid-link';
 import axios from 'axios';
 import { createClient } from '@/utils/supabase/client';
 import Accounts from '@/components/Accounts';
 
 const Dashboard = () => {
-    const chartConfig = {
+    const [linkToken, setLinkToken] = useState<string | null>(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState<any>(null);
+    const router = useRouter();
+    const supabase = createClient();
+
+    const categoriesData = [
+        { category: "Accounts", percentage: 25},
+        { category: "Stocks", percentage: 15},
+        { category: "Crypto", percentage: 20},
+        { category: "Real Estate", percentage: 10},
+        { category: "Cars", percentage: 5},
+        { category: "Liabilites", percentage: 15},
+        { category: "Other", percentage: 10},
+    ]
+
+    // All Dummy Data to make Frontend
+    const netWorthChartData = [
+        { month: "January", net_worth: 1000, },
+        { month: "February", net_worth: 1200 },
+        { month: "March", net_worth: 5000 },
+        { month: "April", net_worth: 7000 },
+        { month: "May", net_worth: 10000 },
+        { month: "June", net_worth: 15000},
+        { month: "July", net_worth: 18000},
+        { month: "August", net_worth: 20000},
+        { month: "September", net_worth: 25000},
+        { month: "October", net_worth: 40000},
+        { month: "November", net_worth: 50000},
+        { month: "December", net_worth: 60000 },
+    ]
+
+    const netWorthChartConfig = {
         net_worth: {
             label: "Net Worth",
             color: "#2563eb",
         },
-        assets: {
-            label: "Assets",
-            color: "#60a5fa",
-        },
     } satisfies ChartConfig
 
-    const categories = [
-        { name: "Accounts", percentage: 25, color: "#3d84f7" },
-        { name: "Stocks", percentage: 15, color: "#3d84f7"},
-        { name: "Crypto", percentage: 20, color: "#3d84f7" },
-        { name: "Real Estate", percentage: 10, color: "#3d84f7" },
-        { name: "Cars", percentage: 5, color: "#3d84f7"},
-        { name: "Liabilites", percentage: 15, color: "#3d84f7" },
-        { name: "Other", percentage: 10, color: "#3d84f7"},
-    ]
-
-    // All Dummy Data to make Frontend
-    const chartData = [
-        { month: "January", net_worth: 186, assets: 80 },
-        { month: "February", net_worth: 305, assets: 200 },
-        { month: "March", net_worth: 237, assets: 120 },
-        { month: "April", net_worth: 73, assets: 190 },
-        { month: "May", net_worth: 209, assets: 130 },
-        { month: "June", net_worth: 214, assets: 140 },
-        { month: "July", net_worth: 186, assets: 80 },
-        { month: "August", net_worth: 305, assets: 200 },
-        { month: "September", net_worth: 237, assets: 120 },
-        { month: "October", net_worth: 73, assets: 190 },
-        { month: "November", net_worth: 209, assets: 130 },
-        { month: "December", net_worth: 214, assets: 140 },
-    ]
+    const categoryChartConfig = {
+        categories: {
+            label: "Category",
+            color: "#2563eb",
+        },
+    } satisfies ChartConfig
 
     const transactions = [
         { amount: 500.0, detail: 'Account Barclays 1948', date: '3 Jan', time: '15:41' },
@@ -57,15 +67,6 @@ const Dashboard = () => {
         { amount: 500.0, detail: 'Barclays 1948 to Santander 1511', date: '23 Dec', time: '16:41' },
         { amount: 500.0, detail: 'Account Barclays 1948', date: '13 Dec', time: '18:03' },
     ];
-
-    const [linkToken, setLinkToken] = useState<string | null>(null);
-    const [isOpen, setIsOpen] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState<any>(null);
-    const router = useRouter();
-    const supabase = createClient();
-
-    const toggleSidebar = () => setIsOpen(!isOpen);
 
     const onSuccess = async(public_token: string) => {
         try{
@@ -122,17 +123,17 @@ const Dashboard = () => {
             };
         };
 
-        checkUserSession();
-        createLinkToken();
+        // checkUserSession();
+        // createLinkToken();
     }, []);
 
-    if(loading){
-        return <div>Loading...</div>
-    }
+    // if(loading){
+    //     return <div>Loading...</div>
+    // }
 
     return (
         <div className='bg-main-background-color min-h-screen'>
-            <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} toggleSideBar={toggleSidebar}/>
+            <Sidebar isOpen={isOpen} setIsOpen={setIsOpen}/>
 
             {/* Main Content */}
             <div className={`flex-1 p-8 text-white transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-0'}`}>
@@ -149,6 +150,7 @@ const Dashboard = () => {
 
                 {/* Net Worth & Categories */}
                 <div className="grid grid-cols-3 gap-6 ml-10 bg-main-card-color">
+                    {/* Main Content */}
                     <div className="col-span-2 bg-dark p-6 rounded-lg">
                         <h2 className='text-xl'>Total Net Worth</h2>
                         <p className='text-4xl font-bold'>$728,510</p>
@@ -156,54 +158,36 @@ const Dashboard = () => {
 
                         {/* Graph */}
                         <div className="mt-4 h-64 w-full rounded-lg">
-                            <ChartContainer config={chartConfig} className="h-full w-full">
-                                <BarChart accessibilityLayer data={chartData}>
+                            <ChartContainer config={netWorthChartConfig} className="h-full w-full">
+                                <LineChart accessibilityLayer data={netWorthChartData} margin={{left: 12, right: 12}}>
                                     <CartesianGrid vertical={false}/>
                                     <XAxis dataKey="month" tickLine={false} tickMargin={10} axisLine={false} tickFormatter={(value) => value.slice(0, 3)}/>
-                                    <Tooltip content={<ChartTooltipContent/>}/>
-                                    <ChartLegend content={<ChartLegendContent/>}/>
-                                    <Bar dataKey="net_worth" fill='var(--color-net_worth)' radius={4}/>
-                                    <Bar dataKey="assets" fill='var(--color-assets)' radius={4}/>
-                                </BarChart>
+                                    <ChartTooltip cursor={false} content={<ChartTooltipContent/>}/>
+                                    <Line dataKey="net_worth" type="natural" stroke="var(--color-net_worth)" strokeWidth={2} dot={false}/>
+                                </LineChart>
                             </ChartContainer>
                         </div>
                     </div>
 
                     {/* Cateogries */}
                     <div className="bg-dark p-6 rounded-lg m-5">
-                        <h2 className="text-xl">Categories</h2>
+                        <h2 className="text-xl">Categories Breakdown</h2>
 
-                        <ul className="mt-4 space-y-4">
-                            {categories.map((category, index) => {
-                                return (
-                                    <li className="flex items-center justify-between space-x-2" key={index}>
-                                        {/* Category Name and Percentage */}
-                                        <div className="flex flex-col space-y-1 w-full">
-                                            <div className="flex justify-between">
-                                                <span className="text-sm">{category.name}</span>
-                                                <span className="text-sm">{category.percentage}%</span>
-                                            </div>
-
-                                            {/* Progress Bar */}
-                                            <div className="w-full bg-gray-700 rounded-full h-2.5">
-                                                <div
-                                                    className="h-2.5 rounded-full"
-                                                    style={{
-                                                        width: `${category.percentage}%`,
-                                                        backgroundColor: category.color,
-                                                    }}
-                                                />
-                                            </div>
-                                        </div>
-                                    </li>
-                                );
-                            })}
-                        </ul>
+                        <div className="mt-4 h-64 w-full rounded-lg">
+                            <ChartContainer config={categoryChartConfig} className='mx-auto aspect-square max-h-[250px]'>
+                                <PieChart>
+                                    <ChartTooltip content={<ChartTooltip nameKey="category"/>}/>
+                                    <Pie data={categoriesData} dataKey="percentage">
+                                        <LabelList dataKey="category"/>
+                                    </Pie>
+                                </PieChart>
+                            </ChartContainer>
+                        </div>
                     </div>
                 </div>
 
                 {/* Assets & Transactions */}
-                <div className="grid grid-cols-2 gap-6 mt-8 ml-10 bg-car p-6 rounded-lg">
+                <div className="grid grid-cols-2 gap-6 mt-8 ml-4 bg-car p-6 rounded-lg">
                     {/* Assets Card */}
                     <div className="bg-dark p-6 rounded-lg border-2 border-gray-500">
                         <div className="flex justify-between items-center mb-4">

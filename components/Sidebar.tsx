@@ -4,15 +4,17 @@ import Link from 'next/link';
 import React, { useState } from 'react'
 import Logo from "../public/images/logo.png"
 import Image from 'next/image';
-import { MdDashboard, MdInsights } from 'react-icons/md';
-import { TbReportSearch } from 'react-icons/tb';
+import { MdDashboard, MdOutlineAutoGraph } from 'react-icons/md';
+import { CiBank } from "react-icons/ci";
+import { FaCcMastercard } from "react-icons/fa";
+import { VscGraph } from "react-icons/vsc";
 import { PiGearSixFill } from 'react-icons/pi';
 import { FaSignOutAlt } from 'react-icons/fa';
 import { signout } from '@/lib/auth-actions';
 
 interface SidebarProps{
     isOpen: boolean;
-    setIsOpen: () => void;
+    setIsOpen: (open: boolean) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({isOpen, setIsOpen}) => {
@@ -24,16 +26,28 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, setIsOpen}) => {
             route: "/dashboard",
         },
         {
-            name: "Insights",
-            icon: <MdInsights/>,
-            alt: "Insights Icon",
-            route: "/insights",
+            name: "Accounts",
+            icon: <CiBank/>,
+            alt: "Accounts Icon",
+            route: "/accounts",
+        },
+        {
+            name: "Transactions",
+            icon: <FaCcMastercard/>,
+            alt: "Transactions Icon",
+            route: "/dashboard/transactions",
         },
         {
             name: "Reports",
-            icon: <TbReportSearch/>,
+            icon: <VscGraph/>,
             alt: "Reports Icon",
             route: "/reports",
+        },
+        {
+            name: "Investments",
+            icon: <MdOutlineAutoGraph/>,
+            alt: "Investments Icon",
+            route: "/investments",
         },
         {
             name: "Sign out",
@@ -55,7 +69,7 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, setIsOpen}) => {
             <div className={`bg-sidebar-color text-white fixed h-screen transition-all duration-300 z-10 ${isOpen ? 'w-64': 'w-0 overflow-hidden'}`}>
                 <div className="m-5 flex items-center justify-center">
                     <Image src={Logo} alt='Logo' width={50} height={50}/>
-                    <span className='ml-2'>Net Worth App</span>
+                    <span className='ml-2'>Fin Scope</span>
                 </div>
 
                 <div className="flex flex-col items-center">
