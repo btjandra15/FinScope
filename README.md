@@ -58,7 +58,7 @@
 ## About The Project
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-This website is a net worth tracking app that allows the user to connect their banks, brokerages, credit cards, etc displaying all of the information in one place and also giving insight into their spending habits, income to spending ratio, net worth growth predictions, etc 
+This fukll stack application allows the user to connect their banks, brokerages, credit cards, etc displaying all of the information in one place and also giving insight into their spending habits, income to spending ratio, net worth growth predictions, etc 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
