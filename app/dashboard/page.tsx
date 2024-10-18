@@ -10,6 +10,8 @@ import { usePlaidLink } from 'react-plaid-link';
 import axios from 'axios';
 import { createClient } from '@/utils/supabase/client';
 import Accounts from '@/components/Accounts';
+import LineChartTemplate from '@/components/charts/LineChartTemplate';
+import BarChartTemplate from '@/components/charts/BarChartTemplate';
 
 const Dashboard = () => {
     const [linkToken, setLinkToken] = useState<string | null>(null);
@@ -56,6 +58,9 @@ const Dashboard = () => {
         categories: {
             label: "Category",
             color: "#2563eb",
+        },
+        label: {
+            color: "hsl(var(--background))",
         },
     } satisfies ChartConfig
 
@@ -156,33 +161,14 @@ const Dashboard = () => {
                         <p className='text-4xl font-bold'>$728,510</p>
                         <p className='text-green-400'>+543.42 (0.18%)</p>
 
-                        {/* Graph */}
-                        <div className="mt-4 h-64 w-full rounded-lg">
-                            <ChartContainer config={netWorthChartConfig} className="h-full w-full">
-                                <LineChart accessibilityLayer data={netWorthChartData} margin={{left: 12, right: 12}}>
-                                    <CartesianGrid vertical={false}/>
-                                    <XAxis dataKey="month" tickLine={false} tickMargin={10} axisLine={false} tickFormatter={(value) => value.slice(0, 3)}/>
-                                    <ChartTooltip cursor={false} content={<ChartTooltipContent/>}/>
-                                    <Line dataKey="net_worth" type="natural" stroke="var(--color-net_worth)" strokeWidth={2} dot={false}/>
-                                </LineChart>
-                            </ChartContainer>
-                        </div>
+                        <LineChartTemplate data={netWorthChartData} config={netWorthChartConfig}/>
                     </div>
 
                     {/* Cateogries */}
                     <div className="bg-dark p-6 rounded-lg m-5">
                         <h2 className="text-xl">Categories Breakdown</h2>
 
-                        <div className="mt-4 h-64 w-full rounded-lg">
-                            <ChartContainer config={categoryChartConfig} className='mx-auto aspect-square max-h-[250px]'>
-                                <PieChart>
-                                    <ChartTooltip content={<ChartTooltip nameKey="category"/>}/>
-                                    <Pie data={categoriesData} dataKey="percentage">
-                                        <LabelList dataKey="category"/>
-                                    </Pie>
-                                </PieChart>
-                            </ChartContainer>
-                        </div>
+                        <BarChartTemplate data={categoriesData} config={categoryChartConfig} dataKey1="category" dataKey2="percentage"/>
                     </div>
                 </div>
 
