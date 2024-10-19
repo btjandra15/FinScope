@@ -5,7 +5,7 @@ import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTool
 import Link from 'next/link';
 import { redirect, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { Bar, BarChart, CartesianGrid, LabelList, Line, LineChart, Pie, PieChart, PolarAngleAxis, RadarChart, Tooltip, XAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, LabelList, Line, LineChart, Pie, PieChart, PolarAngleAxis, RadarChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { usePlaidLink } from 'react-plaid-link';
 import axios from 'axios';
 import { createClient } from '@/utils/supabase/client';
@@ -18,16 +18,6 @@ const Dashboard = () => {
     const [user, setUser] = useState<any>(null);
     const router = useRouter();
     const supabase = createClient();
-
-    const categoriesData = [
-        { category: "Accounts", percentage: 25},
-        { category: "Stocks", percentage: 15},
-        { category: "Crypto", percentage: 20},
-        { category: "Real Estate", percentage: 10},
-        { category: "Cars", percentage: 5},
-        { category: "Liabilites", percentage: 15},
-        { category: "Other", percentage: 10},
-    ]
 
     // All Dummy Data to make Frontend
     const netWorthChartData = [
@@ -58,6 +48,16 @@ const Dashboard = () => {
             color: "#2563eb",
         },
     } satisfies ChartConfig
+
+    const categoriesData = [
+        { category: "Accounts", percentage: 25},
+        { category: "Stocks", percentage: 15},
+        { category: "Crypto", percentage: 20},
+        { category: "Real Estate", percentage: 10},
+        { category: "Cars", percentage: 5},
+        { category: "Liabilites", percentage: 15},
+        { category: "Other", percentage: 10},
+    ]
 
     const transactions = [
         { amount: 500.0, detail: 'Account Barclays 1948', date: '3 Jan', time: '15:41' },
@@ -156,7 +156,6 @@ const Dashboard = () => {
                         <p className='text-4xl font-bold'>$728,510</p>
                         <p className='text-green-400'>+543.42 (0.18%)</p>
 
-                        {/* Graph */}
                         <div className="mt-4 h-64 w-full rounded-lg">
                             <ChartContainer config={netWorthChartConfig} className="h-full w-full">
                                 <LineChart accessibilityLayer data={netWorthChartData} margin={{left: 12, right: 12}}>
@@ -173,14 +172,44 @@ const Dashboard = () => {
                     <div className="bg-dark p-6 rounded-lg m-5">
                         <h2 className="text-xl">Categories Breakdown</h2>
 
-                        <div className="mt-4 h-64 w-full rounded-lg">
-                            <ChartContainer config={categoryChartConfig} className='mx-auto aspect-square max-h-[250px]'>
-                                <PieChart>
-                                    <ChartTooltip content={<ChartTooltip nameKey="category"/>}/>
-                                    <Pie data={categoriesData} dataKey="percentage">
-                                        <LabelList dataKey="category"/>
-                                    </Pie>
-                                </PieChart>
+                        <div className="mt-4 h-1000 w-full rounded-lg">
+                            <ChartContainer config={categoryChartConfig}>
+                                <BarChart accessibilityLayer data={categoriesData} layout='vertical' margin={{right: 16}}>
+                                    <CartesianGrid horizontal={false}/>
+
+                                    <YAxis 
+                                        dataKey="category" 
+                                        type='category' 
+                                        tickLine={false} 
+                                        tickMargin={10} 
+                                        axisLine={false} 
+                                        tickFormatter={(value) => value.slice(0, 3)} 
+                                        hide
+                                    />
+
+                                    <XAxis dataKey="percentage" type='number' hide/>
+                                    <ChartTooltip cursor={false} content={<ChartTooltipContent indicator='line'/>}/>
+
+                                    <Bar dataKey="percentage" layout='vertical' fill="var(--color-categories)" radius={4}> 
+                                        <LabelList 
+                                            dataKey="category" 
+                                            position="insideLeft" 
+                                            offset={8} 
+                                            style={{fill: 'white'}}
+                                            className='fill-[color-label]' 
+                                            fontSize={12}
+                                        />
+
+                                        <LabelList 
+                                            dataKey="percentage" 
+                                            position="right" 
+                                            offset={8} 
+                                            style={{fill: 'white'}}
+                                            className='fill-foreground' 
+                                            fontSize={12}
+                                        />
+                                    </Bar>
+                                </BarChart>
                             </ChartContainer>
                         </div>
                     </div>
