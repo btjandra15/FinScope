@@ -43,9 +43,9 @@ export async function POST(req: NextRequest){
             transactions = transactions.concat(paginatedResponse.data.transactions);
         }
 
-        return transactions;
+        return NextResponse.json({ transactions });
     }catch(error){
         console.log("Error getting transactions: ", error);
+        return NextResponse.json({ error: "Error fetching transactions" }, { status: 500 });
     }
-
 }

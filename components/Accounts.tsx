@@ -2,51 +2,51 @@
 
 import React, { useEffect, useState } from 'react'
 
-const Accounts = ({user}) => {
-    const [accounts, setAccounts] = useState<any[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+const Accounts = () => {
+    // const [accounts, setAccounts] = useState<any[]>([]);
+    // const [loading, setLoading] = useState<boolean>(true);
+    // const [error, setError] = useState<string | null>(null);
   
-    useEffect(() => {
-      const fetchAccounts = async () => {
-        try {
-            const response = await fetch(`/api/plaid/get_accounts`, {
-                method: "GET",
-                headers: {
-                    "user-id": user.id,  
-                },
-            });
+    // useEffect(() => {
+    //   const fetchAccounts = async () => {
+    //     try {
+    //         const response = await fetch(`/api/plaid/get_accounts`, {
+    //             method: "GET",
+    //             headers: {
+    //                 "user-id": user.id,  
+    //             },
+    //         });
 
-            const result = await response.json();
+    //         const result = await response.json();
 
-            if (response.ok) {
-                if (result.accounts && result.accounts.length > 0) {
-                    setAccounts(result.accounts);
-                } else {
-                    setError("No accounts found or data is empty");
-                }
-            } else {
-                setError(result.error || "Failed to fetch accounts");
-            }
-        } catch (err: any) {
-          setError(err.message);
-        } finally {
-          setLoading(false);
-        }
-      };
+    //         if (response.ok) {
+    //             if (result.accounts && result.accounts.length > 0) {
+    //                 setAccounts(result.accounts);
+    //             } else {
+    //                 setError("No accounts found or data is empty");
+    //             }
+    //         } else {
+    //             setError(result.error || "Failed to fetch accounts");
+    //         }
+    //     } catch (err: any) {
+    //       setError(err.message);
+    //     } finally {
+    //       setLoading(false);
+    //     }
+    //   };
   
-      fetchAccounts();
-    }, []);
+    //   fetchAccounts();
+    // }, []);
 
-    useEffect(() => {
-        if (!loading && accounts.length > 0) {
-            console.log("Accounts Loaded:", accounts);
-        }
-    }, [accounts, loading]); 
+    // useEffect(() => {
+    //     if (!loading && accounts.length > 0) {
+    //         console.log("Accounts Loaded:", accounts);
+    //     }
+    // }, [accounts, loading]); 
 
     return (
         <div className="">
-            {accounts.length > 0 ? (
+            {/* {accounts.length > 0 ? (
                 accounts.map((account, index) => (
                     <div className="mb-5" key={index}>
                         <div className="p-5 bg-main-card-color rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
@@ -62,7 +62,7 @@ const Accounts = ({user}) => {
                 ))
             ): (
                 <p>No accounts connected.</p>
-            )}
+            )} */}
         </div>
     )
 }

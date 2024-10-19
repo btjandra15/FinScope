@@ -10,6 +10,8 @@ import { usePlaidLink } from 'react-plaid-link';
 import axios from 'axios';
 import { createClient } from '@/utils/supabase/client';
 import Accounts from '@/components/Accounts';
+import LineChartTemplate from '@/components/charts/LineChartTemplate';
+import BarChartTemplate from '@/components/charts/BarChartTemplate';
 
 const Dashboard = () => {
     const [linkToken, setLinkToken] = useState<string | null>(null);
@@ -46,6 +48,9 @@ const Dashboard = () => {
         categories: {
             label: "Category",
             color: "#2563eb",
+        },
+        label: {
+            color: "hsl(var(--background))",
         },
     } satisfies ChartConfig
 
