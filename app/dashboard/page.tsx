@@ -21,7 +21,7 @@ const Dashboard = () => {
     const router = useRouter();
     const supabase = createClient();
 
-    // All Dummy Data to make Frontend
+    // Dummy
     const netWorthChartData = [
         { month: "January", net_worth: 1000, },
         { month: "February", net_worth: 1200 },
@@ -162,14 +162,7 @@ const Dashboard = () => {
                         <p className='text-green-400'>+543.42 (0.18%)</p>
 
                         <div className="mt-4 h-64 w-full rounded-lg">
-                            <ChartContainer config={netWorthChartConfig} className="h-full w-full">
-                                <LineChart accessibilityLayer data={netWorthChartData} margin={{left: 12, right: 12}}>
-                                    <CartesianGrid vertical={false}/>
-                                    <XAxis dataKey="month" tickLine={false} tickMargin={10} axisLine={false} tickFormatter={(value) => value.slice(0, 3)}/>
-                                    <ChartTooltip cursor={false} content={<ChartTooltipContent/>}/>
-                                    <Line dataKey="net_worth" type="natural" stroke="var(--color-net_worth)" strokeWidth={2} dot={false}/>
-                                </LineChart>
-                            </ChartContainer>
+                            <LineChartTemplate data={netWorthChartData} config={netWorthChartConfig} dataKey1="month" dataKey2="net_worth"/>
                         </div>
                     </div>
 
@@ -177,45 +170,8 @@ const Dashboard = () => {
                     <div className="bg-dark p-6 rounded-lg m-5">
                         <h2 className="text-xl">Categories Breakdown</h2>
 
-                        <div className="mt-4 h-1000 w-full rounded-lg">
-                            <ChartContainer config={categoryChartConfig}>
-                                <BarChart accessibilityLayer data={categoriesData} layout='vertical' margin={{right: 16}}>
-                                    <CartesianGrid horizontal={false}/>
-
-                                    <YAxis 
-                                        dataKey="category" 
-                                        type='category' 
-                                        tickLine={false} 
-                                        tickMargin={10} 
-                                        axisLine={false} 
-                                        tickFormatter={(value) => value.slice(0, 3)} 
-                                        hide
-                                    />
-
-                                    <XAxis dataKey="percentage" type='number' hide/>
-                                    <ChartTooltip cursor={false} content={<ChartTooltipContent indicator='line'/>}/>
-
-                                    <Bar dataKey="percentage" layout='vertical' fill="var(--color-categories)" radius={4}> 
-                                        <LabelList 
-                                            dataKey="category" 
-                                            position="insideLeft" 
-                                            offset={8} 
-                                            style={{fill: 'white'}}
-                                            className='fill-[color-label]' 
-                                            fontSize={12}
-                                        />
-
-                                        <LabelList 
-                                            dataKey="percentage" 
-                                            position="right" 
-                                            offset={8} 
-                                            style={{fill: 'white'}}
-                                            className='fill-foreground' 
-                                            fontSize={12}
-                                        />
-                                    </Bar>
-                                </BarChart>
-                            </ChartContainer>
+                        <div className="mt-4 h-auto w-full rounded-lg">
+                            <BarChartTemplate data={categoriesData} config={categoryChartConfig} dataKey1="category" dataKey2="percentage"/>
                         </div>
                     </div>
                 </div>

@@ -1,14 +1,14 @@
 "use client"
 
 import CashFlowPage from '@/components/reports/CashFlow';
+import Spending from '@/components/reports/Spending';
 import Sidebar from '@/components/Sidebar';
 import React, { useState } from 'react'
 
 const ReportsPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState('income');
-
-    const toggleSidebar = () => setIsOpen(!isOpen);
+    
     const handleTabClick = (tab: string) => setActiveTab(tab);
 
     return (
@@ -57,7 +57,7 @@ const ReportsPage = () => {
 
                 <div className="ml-4 p-6">
                     {activeTab === "income" && <div>Income</div>}
-                    {activeTab === "spending" && <div>Spending</div>}
+                    {activeTab === "spending" && <Spending/>}
                     {activeTab === "cashflow" && <CashFlowPage/>}
                     {activeTab === "sankey" && <div>Sankey</div>}
                 </div>
