@@ -59,7 +59,7 @@ const ReportsPage = () => {
                     {activeTab === "income" && <div>Income</div>}
                     {activeTab === "spending" && <Spending/>}
                     {activeTab === "cashflow" && <CashFlowPage/>}
-                    {activeTab === "sankey" && <div>Sankey</div>}
+                    {activeTab === "sankey" && <div className='text-5xl'>COMING SOON</div>}
                 </div>
             </div>
         </div>

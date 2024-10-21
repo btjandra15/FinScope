@@ -9,6 +9,7 @@ import { CiBank } from "react-icons/ci";
 import { FaCcMastercard } from "react-icons/fa";
 import { VscGraph } from "react-icons/vsc";
 import { PiGearSixFill } from 'react-icons/pi';
+import { GrPlan } from "react-icons/gr";
 import { FaSignOutAlt } from 'react-icons/fa';
 import { signout } from '@/lib/auth-actions';
 
@@ -35,7 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, setIsOpen}) => {
             name: "Transactions",
             icon: <FaCcMastercard/>,
             alt: "Transactions Icon",
-            route: "/dashboard/transactions",
+            route: "/transactions",
         },
         {
             name: "Reports",
@@ -48,6 +49,12 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, setIsOpen}) => {
             icon: <MdOutlineAutoGraph/>,
             alt: "Investments Icon",
             route: "/investments",
+        },
+        {
+            name: "Plan",
+            icon: <GrPlan/>,
+            alt: "Plan Icon",
+            route: "/plan",
         },
         {
             name: "Sign out",

@@ -176,23 +176,33 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Assets & Transactions */}
+                {/* Plan & Transactions */}
                 <div className="grid grid-cols-2 gap-6 mt-8 ml-4 bg-car p-6 rounded-lg">
                     {/* Assets Card */}
-                    <div className="bg-dark p-6 rounded-lg border-2 border-gray-500">
+                    <div className="bg-card-color-2 p-6 rounded-lg shadow-md w-full max-w-full border-2 border-gray-500">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className='text-xl font-semibold'>Accounts</h2>
-                            <button className='text-gray-400 hover:text-white transition-colors'>View All</button>
+                            <h2 className="text-white text-lg font-bold">Plan</h2>
+                            <button className="text-gray-300 hover:text-gray-400 flex items-center" onClick={() => router.push('/plan')}>
+                                View All
+
+                                <span className="ml-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor" fill="none">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </span>
+                            </button>
                         </div>
 
-                        <Accounts user={user}/>
+                        <div className="space-y-4">
+                            {/* Plan Card */}
+                        </div>
                     </div>
 
                     {/* Transactions Card */}
                     <div className="bg-card-color-2 p-6 rounded-lg shadow-md w-full max-w-full border-2 border-gray-500">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-white text-lg font-bold">Transactions</h2>
-                            <button className="text-gray-300 hover:text-gray-400 flex items-center">
+                            <button className="text-gray-300 hover:text-gray-400 flex items-center" onClick={() => router.push('/transactions')}>
                                 View All
 
                                 <span className="ml-2">
