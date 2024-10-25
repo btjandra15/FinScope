@@ -57,6 +57,12 @@ const Sidebar: React.FC<SidebarProps> = ({isOpen, setIsOpen}) => {
             route: "/plan",
         },
         {
+            name: "Debt",
+            icon: <GrPlan/>,
+            alt: "Debt Icon",
+            route: "/debt"
+        },
+        {
             name: "Sign out",
             icon: <FaSignOutAlt/>,
             alt: "Signout Icon",

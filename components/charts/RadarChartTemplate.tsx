@@ -17,7 +17,7 @@ const RadarChartTemplate: React.FC<RadarChartTemplateProps> = ({data, config, da
                 <ChartTooltip cursor={false} content={<ChartLegendContent/>}/>
                 <PolarAngleAxis dataKey={dataKey1}/>
                 <PolarGrid/>
-                <Radar dataKey="amount" fill={`var(--color-${dataKey2})`} fillOpacity={0.6} dot={{r: 4, fillOpacity: 1,}}/>
+                <Radar dataKey={dataKey2} fill={`var(--color-${dataKey2})`} fillOpacity={0.6} dot={{r: 4, fillOpacity: 1,}}/>
             </RadarChart>
         </ChartContainer>
     </div>
