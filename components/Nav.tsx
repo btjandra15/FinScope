@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { HoverBorderGradient } from './ui/hover-border-gradient';
 
 interface NavProps{
     isLoggedIn: boolean,
@@ -48,16 +49,20 @@ const Nav: React.FC<NavProps> = ({isLoggedIn}) => {
                 </ul>
             </nav>
 
-                {/* Login & Signup */}
+            {/* Login & Signup */}
             <div className="flex items-center space-x-4">
                 {isLoggedIn ? (
-                    <Link href="/login" className="bg-gray-200 dark:bg-black dark:text-white text-black font-bold py-2 px-4 rounded-lg hover:bg-indigo-200">
-                        Dashboard
-                    </Link>
+                    <HoverBorderGradient containerClassName='rounded-full' as="button" className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2">
+                        <Link href="/login">
+                            Dashboard
+                        </Link>
+                    </HoverBorderGradient>
                 ) : (
-                    <Link href="/login" className="bg-gray-200 dark:bg-black dark:text-white text-black font-bold py-2 px-4 rounded-lg hover:bg-indigo-200">
-                        Login
-                    </Link>
+                    <HoverBorderGradient containerClassName='rounded-full' as="button" className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2">
+                        <Link href="/login">
+                            Login
+                        </Link>
+                    </HoverBorderGradient>
                 )}
             </div>
         </header>

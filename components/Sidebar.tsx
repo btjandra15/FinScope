@@ -18,64 +18,71 @@ interface SidebarProps{
     setIsOpen: (open: boolean) => void;
 }
 
+const links = [
+    {
+        name: "Dashboard",
+        icon: <MdDashboard/>,
+        alt: "Dashboard Icon",
+        route: "/dashboard",
+    },
+    {
+        name: "Accounts",
+        icon: <CiBank/>,
+        alt: "Accounts Icon",
+        route: "/accounts",
+    },
+    {
+        name: "Transactions",
+        icon: <FaCcMastercard/>,
+        alt: "Transactions Icon",
+        route: "/transactions",
+    },
+    {
+        name: "Reports",
+        icon: <VscGraph/>,
+        alt: "Reports Icon",
+        route: "/reports",
+    },
+    {
+        name: "Investments",
+        icon: <MdOutlineAutoGraph/>,
+        alt: "Investments Icon",
+        route: "/investments",
+    },
+    {
+        name: "Recurring",
+        icon: <GrPlan/>,
+        alt: "Recurring Icon",
+        route: "/recurring",
+    },
+    {
+        name: "Debt",
+        icon: <GrPlan/>,
+        alt: "Debt Icon",
+        route: "/debt"
+    },
+    {
+        name: "Plan",
+        icon: <GrPlan/>,
+        alt: "Plan Icon",
+        route: "/plan",
+    },
+    {
+        name: "Sign out",
+        icon: <FaSignOutAlt/>,
+        alt: "Signout Icon",
+        route: "/logout",
+        onClick: () => signout()
+    },
+    {
+        name: "Settings",
+        icon: <PiGearSixFill/>,
+        alt: "Settings Icon",
+        route: "/settings",
+    },
+]
+
 const Sidebar: React.FC<SidebarProps> = ({isOpen, setIsOpen}) => {
-    const links = [
-        {
-            name: "Dashboard",
-            icon: <MdDashboard/>,
-            alt: "Dashboard Icon",
-            route: "/dashboard",
-        },
-        {
-            name: "Accounts",
-            icon: <CiBank/>,
-            alt: "Accounts Icon",
-            route: "/accounts",
-        },
-        {
-            name: "Transactions",
-            icon: <FaCcMastercard/>,
-            alt: "Transactions Icon",
-            route: "/transactions",
-        },
-        {
-            name: "Reports",
-            icon: <VscGraph/>,
-            alt: "Reports Icon",
-            route: "/reports",
-        },
-        {
-            name: "Investments",
-            icon: <MdOutlineAutoGraph/>,
-            alt: "Investments Icon",
-            route: "/investments",
-        },
-        {
-            name: "Plan",
-            icon: <GrPlan/>,
-            alt: "Plan Icon",
-            route: "/plan",
-        },
-        {
-            name: "Debt",
-            icon: <GrPlan/>,
-            alt: "Debt Icon",
-            route: "/debt"
-        },
-        {
-            name: "Sign out",
-            icon: <FaSignOutAlt/>,
-            alt: "Signout Icon",
-            route: "/logout",
-            onClick: () => signout()
-        },
-        {
-            name: "Settings",
-            icon: <PiGearSixFill/>,
-            alt: "Settings Icon",
-            route: "/settings",
-        },
-    ]
 
     return (
         <div className='flex'>
