@@ -137,11 +137,11 @@ const Dashboard = () => {
     // }
 
     return (
-        <div className='bg-main-background-color min-h-screen'>
+        <div className='bg-white min-h-screen'>
             <Sidebar isOpen={isOpen} setIsOpen={setIsOpen}/>
 
             {/* Main Content */}
-            <div className={`flex-1 p-8 text-white transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-0'}`}>
+            <div className={`flex-1 p-8 text-black transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-0'}`}>
                 {/* Header  */}
                 <div className="flex items-center justify-between">
                     <h1 className='text-5xl ml-4 p-6'>Dashboard</h1>
@@ -154,7 +154,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Net Worth & Categories */}
-                <div className="grid grid-cols-3 gap-6 ml-10 bg-main-card-color">
+                <div className="grid grid-cols-3 gap-6 ml-10 bg-white border-2 border-gray-500">
                     {/* Main Content */}
                     <div className="col-span-2 bg-dark p-6 rounded-lg">
                         <h2 className='text-xl'>Total Net Worth</h2>
@@ -178,11 +178,11 @@ const Dashboard = () => {
 
                 {/* Plan & Transactions */}
                 <div className="grid grid-cols-2 gap-6 mt-8 ml-4 bg-car p-6 rounded-lg">
-                    {/* Assets Card */}
-                    <div className="bg-card-color-2 p-6 rounded-lg shadow-md w-full max-w-full border-2 border-gray-500">
+                    {/* Planm Card */}
+                    <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-full border-2 border-gray-500">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-white text-lg font-bold">Plan</h2>
-                            <button className="text-gray-300 hover:text-gray-400 flex items-center" onClick={() => router.push('/plan')}>
+                            <h2 className="text-black text-lg font-bold">Plan</h2>
+                            <button className="text-black hover:text-gray-400 flex items-center" onClick={() => router.push('/plan')}>
                                 View All
 
                                 <span className="ml-2">
@@ -199,10 +199,10 @@ const Dashboard = () => {
                     </div>
 
                     {/* Transactions Card */}
-                    <div className="bg-card-color-2 p-6 rounded-lg shadow-md w-full max-w-full border-2 border-gray-500">
+                    <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-full border-2 border-gray-500">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-white text-lg font-bold">Transactions</h2>
-                            <button className="text-gray-300 hover:text-gray-400 flex items-center" onClick={() => router.push('/transactions')}>
+                            <h2 className="text-black text-lg font-bold">Transactions</h2>
+                            <button className="text-black hover:text-gray-400 flex items-center" onClick={() => router.push('/transactions')}>
                                 View All
 
                                 <span className="ml-2">
@@ -211,45 +211,6 @@ const Dashboard = () => {
                                     </svg>
                                 </span>
                             </button>
-                        </div>
-
-                        <div className="space-y-4">
-                            {/* Transaction Card */}
-                            <div className="flex items-center justify-between bg-card-color-2 p-4 rounded-lg border-2 border-gray-500">
-                                <div className="flex items-center">
-                                    <div className="bg-green-500 p-2 rounded-full">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 12h14M12 5l7 7-7 7"/>
-                                        </svg>
-                                    </div>
-                                    <div className="ml-4">
-                                        <p className="text-green-400 font-bold">+500.00</p>
-                                        <p className="text-gray-400 text-sm">Account Barclays 1948</p>
-                                    </div>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-gray-400 text-sm">3 Jan</p>
-                                    <p className="text-gray-400 text-sm">15:41</p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center justify-between bg-card-color-2 p-4 rounded-lg border-2 border-gray-500">
-                                <div className="flex items-center">
-                                    <div className="bg-red-500 p-2 rounded-full">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" viewBox="0 0 24 24" stroke="currentColor" fill="none">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 12H5m7 7-7-7 7-7"/>
-                                        </svg>
-                                    </div>
-                                    <div className="ml-4">
-                                        <p className="text-red-400 font-bold">-500.00</p>
-                                        <p className="text-gray-400 text-sm">Account Santander 1511</p>
-                                    </div>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-gray-400 text-sm">1 Jan</p>
-                                    <p className="text-gray-400 text-sm">10:09</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
