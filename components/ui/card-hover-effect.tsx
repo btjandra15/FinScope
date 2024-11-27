@@ -14,11 +14,11 @@ export const HoverEffect = ({items, className,}: { items: { title: string; descr
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
           transition={{ duration: 0.5, delay: idx * 0.1 }}
+          key={item?.link}
         >
           <Link
             href={item?.link}
-            key={item?.link}
-            className="relative group  block p-2 h-full w-full"
+            className="relative group block p-2 h-full w-full"
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
           >
@@ -39,6 +39,7 @@ export const HoverEffect = ({items, className,}: { items: { title: string; descr
                 />
               )}
             </AnimatePresence>
+            
             <Card>
               <CardTitle>{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>

@@ -1,15 +1,12 @@
 "use client"
 
 import Sidebar from '@/components/Sidebar';
-import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import Link from 'next/link';
-import { redirect, useRouter } from 'next/navigation';
+import { ChartConfig } from '@/components/ui/chart';
+import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { Bar, BarChart, CartesianGrid, LabelList, Line, LineChart, Pie, PieChart, PolarAngleAxis, RadarChart, Tooltip, XAxis, YAxis } from 'recharts';
 import { usePlaidLink } from 'react-plaid-link';
 import axios from 'axios';
 import { createClient } from '@/utils/supabase/client';
-import Accounts from '@/components/Accounts';
 import LineChartTemplate from '@/components/charts/LineChartTemplate';
 import BarChartTemplate from '@/components/charts/BarChartTemplate';
 
