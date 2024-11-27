@@ -84,6 +84,8 @@ const Dashboard = () => {
 
             const accessToken = res.data.access_token;
 
+            console.log(user.id);
+
             await axios.post('/api/plaid/add_accounts', {
                 userID: user.id,
                 access_token: accessToken,
@@ -125,20 +127,20 @@ const Dashboard = () => {
             };
         };
 
-        // checkUserSession();
-        // createLinkToken();
+        checkUserSession();
+        createLinkToken();
     }, []);
 
-    // if(loading){
-    //     return <div>Loading...</div>
-    // }
+    if(loading){
+        return <div>Loading...</div>
+    }
 
     return (
-        <div className='bg-white min-h-screen'>
+        <div className='bg-black min-h-screen'>
             <Sidebar isOpen={isOpen} setIsOpen={setIsOpen}/>
 
             {/* Main Content */}
-            <div className={`flex-1 p-8 text-black transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-0'}`}>
+            <div className={`flex-1 p-8 text-white transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-0'}`}>
                 {/* Header  */}
                 <div className="flex items-center justify-between">
                     <h1 className='text-5xl ml-4 p-6'>Dashboard</h1>
@@ -151,7 +153,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Net Worth & Categories */}
-                <div className="grid grid-cols-3 gap-6 ml-10 bg-white border-2 border-gray-500">
+                <div className="grid grid-cols-3 gap-6 ml-10 bg-black border-2 border-gray-500">
                     {/* Main Content */}
                     <div className="col-span-2 bg-dark p-6 rounded-lg">
                         <h2 className='text-xl'>Total Net Worth</h2>
@@ -176,10 +178,10 @@ const Dashboard = () => {
                 {/* Plan & Transactions */}
                 <div className="grid grid-cols-2 gap-6 mt-8 ml-4 bg-car p-6 rounded-lg">
                     {/* Planm Card */}
-                    <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-full border-2 border-gray-500">
+                    <div className="bg-black p-6 rounded-lg shadow-md w-full max-w-full border-2 border-gray-500">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-black text-lg font-bold">Plan</h2>
-                            <button className="text-black hover:text-gray-400 flex items-center" onClick={() => router.push('/plan')}>
+                            <h2 className="text-white text-lg font-bold">Plan</h2>
+                            <button className="text-white hover:text-gray-400 flex items-center" onClick={() => router.push('/plan')}>
                                 View All
 
                                 <span className="ml-2">
@@ -196,10 +198,10 @@ const Dashboard = () => {
                     </div>
 
                     {/* Transactions Card */}
-                    <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-full border-2 border-gray-500">
+                    <div className="bg-black p-6 rounded-lg shadow-md w-full max-w-full border-2 border-gray-500">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-black text-lg font-bold">Transactions</h2>
-                            <button className="text-black hover:text-gray-400 flex items-center" onClick={() => router.push('/transactions')}>
+                            <h2 className="text-white text-lg font-bold">Transactions</h2>
+                            <button className="text-white hover:text-gray-400 flex items-center" onClick={() => router.push('/transactions')}>
                                 View All
 
                                 <span className="ml-2">

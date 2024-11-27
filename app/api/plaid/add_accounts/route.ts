@@ -20,11 +20,25 @@ export async function POST(req: NextRequest){
         const accountResponse = await client.accountsGet({access_token});
         const accounts = accountResponse.data.accounts;
 
-        const { error } = await supabase.from('profiles').upsert({id: userID, accounts: accounts}).eq('id', userID);
+        const accountsToInsert = accounts.map((account) => ({
+            account_id: account.account_id,
+            user_id: userID,
+            name: account.name,
+            type: account.type,
+            balance: account.balances.current || 0,
+            currency: account.balances.iso_currency_code || "USD",
+            created_at: new Date().toISOString(),
+        }));
+
+        const {error} = await supabase.from("accounts").insert(accountsToInsert);
 
         if (error) {
-            console.error("Error updating accounts in Supabase:", error);
-            return NextResponse.error();
+            console.error("Error inserting accounts into Supabase:", error);
+            
+            return NextResponse.json(
+              { error: "Error inserting accounts into database" },
+              { status: 500 }
+            );
         }
 
         return NextResponse.json({message: "Account added to database successfully"});
