@@ -13,14 +13,13 @@ export default function Page() {
     loadData();
   }, [loadData]);
 
-  console.log("User: ", user?.id);
-  console.log("Transactions: ", transactions);
-  console.log("Summary: ", summary);
-
   return (
     <View>
       <SignedIn>
         <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
+        <Text>Income: {summary.totalIncome}</Text>
+        <Text>Expenses: {summary.expenses}</Text>
+        <Text>Total Balance: {summary.totalBalance}</Text>
         <SignOutButton />
       </SignedIn>
 
