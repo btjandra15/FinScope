@@ -58,10 +58,10 @@ export const useTransactions = (userID) => {
             if(!res.ok) throw new Error("Failed to delete transaction");
 
             loadData();
-            Alert("Transaction deleted successfully");
+            Alert.alert("Transaction deleted successfully");
         } catch (error) {
             console.error("Error deleting transaction:", error);
-            Alert("Failed to delete transaction");
+            Alert.alert("Failed to delete transaction");
         }
     });
 
