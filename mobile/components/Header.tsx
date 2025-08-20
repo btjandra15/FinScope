@@ -6,9 +6,18 @@ import { useUser } from '@clerk/clerk-expo'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { useRouter } from 'expo-router'
 
-const Header = () => {
+type HeaderProps = {
+  addType?: "transaction" | "subscription"; // default transaction
+};
+
+const Header = ({addType = "transaction"}: HeaderProps) => {
     const router = useRouter();
     const {user} = useUser();
+
+    const handleAdd = () => {
+        if(addType === "transaction") router.push('/createTransactions');
+        if(addType === "subscription") router.push('/createSubscriptions');
+    }
 
     return (
         <View style={styles.header}>
@@ -26,7 +35,7 @@ const Header = () => {
 
             {/* Right Header */}
             <View style={styles.headerRight}>
-                <TouchableOpacity style={styles.addButton} onPress={() => router.push('/createTransactions')}>
+                <TouchableOpacity style={styles.addButton} onPress={handleAdd}>
                     <Ionicons name='add' size={20} color={'#fff'} />
                     <Text style={styles.addButtonText}>Add</Text>
                 </TouchableOpacity>

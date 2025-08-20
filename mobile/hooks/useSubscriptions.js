@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useState } from "react";
+import { Alert } from "react-native";
 
 const API_URL = "https://finscope-km3n.onrender.com/api";
 
@@ -22,7 +23,7 @@ export const useSubscriptions = (userID) => {
 
     const fetchSummary = useCallback(async () => {
         try {
-            const res = await fetch(`${API_URL}/subscription/summary/${userID}`);
+            const res = await fetch(`${API_URL}/subscriptions/summary/${userID}`);
             const data = await res.json();
 
             setSummary(data);
@@ -47,7 +48,7 @@ export const useSubscriptions = (userID) => {
 
     const deleteSubscription = useCallback(async (id) => {
         try {
-            const res = await fetch(`${API_URL}/subscription/${id}`, {
+            const res = await fetch(`${API_URL}/subscriptions/${id}`, {
                 method: "DELETE",
             });
 
@@ -61,5 +62,5 @@ export const useSubscriptions = (userID) => {
         }
     });
 
-    return {subscriptions, summary, loadData, deleteSubscription};
+    return {subscriptions, summary, loading, loadData, deleteSubscription};
 }

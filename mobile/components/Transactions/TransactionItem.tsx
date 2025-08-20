@@ -3,7 +3,7 @@ import React from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { styles } from '@/assets/styles/home.styles';
 import { COLORS } from '@/constants/colors';
-import {formatDate} from '../lib/utils';
+import {formatDate} from '../../lib/utils';
 
 const CATEGORY_ICONS = {
   Bills: "receipt",

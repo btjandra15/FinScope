@@ -5,9 +5,9 @@ import { useEffect } from 'react'
 import PageLoader from '@/components/PageLoader'
 import { styles } from '@/assets/styles/home.styles'
 import { useRouter } from 'expo-router'
-import BalanceCard from '@/components/BalanceCard'
-import TransactionItem from '@/components/TransactionItem'
-import NoTransactionsFound from '@/components/NoTransactionsFound'
+import BalanceCard from '@/components/Transactions/BalanceCard'
+import TransactionItem from '@/components/Transactions/TransactionItem'
+import NoTransactionsFound from '@/components/Transactions/NoTransactionsFound'
 import Header from '@/components/Header'
 
 export default function Page() {
@@ -31,7 +31,7 @@ export default function Page() {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Header/>
+        <Header addType = "transaction"/>
 
         <BalanceCard summary={summary} />
 
