@@ -1,5 +1,4 @@
 import express from "express";
-import { sql } from "../config/db.js";
 import { createTransaction, deleteTransaction, getSummary, getTransaction } from "../controllers/transactionsController.js";
 
 const router = express.Router();
