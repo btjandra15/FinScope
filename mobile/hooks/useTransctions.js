@@ -18,6 +18,7 @@ export const useTransactions = (userID) => {
         try {
             const res = await fetch(`${API_URL}/transactions/${userID}`);
             const data = await res.json();
+            
             setTransactions(data);
             setLoading(false);
         } catch (error) {

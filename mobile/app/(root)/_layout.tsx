@@ -17,9 +17,18 @@ export default function Layout () {
             />
 
             <Tabs.Screen
-                name="create"
+                name="createTransactions"
                 options={{
                     href: null,
+                    headerShown: false,
+                }}
+            />
+
+            <Tabs.Screen
+                name="createSubscriptions"
+                options={{
+                    href: null,
+                    headerShown: false,
                 }}
             />
 

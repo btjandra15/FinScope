@@ -80,4 +80,16 @@ const deleteSubscription = async(req, res) => {
     }   
 };
 
-export {createSubscription, getSubscription, updateSubscription, deleteSubscription};
+const getSummary = async(req, res) => {
+    try {
+        const {userId} = req.params;
+        const totalCost = await sql`SELECT COALESCE(SUM(amount), 0) AS total_cost FROM subscriptions WHERE user_id = ${userId}`;
+
+        res.status(200).json({totalCost: totalCost[0].total_cost})
+    } catch (error) {
+        console.error("Error getting summary for subscriptions:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+}
+
+export {createSubscription, getSubscription, updateSubscription, deleteSubscription, getSummary};

@@ -18,7 +18,7 @@ const CATEGORIES = [
   { id: "other", name: "Other", icon: "ellipsis-horizontal" },
 ];
 
-const Create = () => {
+const CreateTransactions = () => {
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(CATEGORIES[0].id);
@@ -171,4 +171,4 @@ const Create = () => {
   )
 }
 
-export default Create
+export default CreateTransactions;
