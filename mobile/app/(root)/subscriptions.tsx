@@ -6,6 +6,7 @@ import SubscriptionCard from '@/components/Subscriptions/SubscriptionCard';
 import {useSubscriptions} from '../../hooks/useSubscriptions';
 import { useUser } from '@clerk/clerk-expo';
 import SubscriptionItem from '@/components/Subscriptions/SubscriptionItem';
+import NoSubscriptionsFound from '@/components/Subscriptions/NoSubscriptionsFound';
 
 const Subscriptions = () => {
   const {user} = useUser();
@@ -38,6 +39,8 @@ const Subscriptions = () => {
         contentContainerStyle={styles.transactionsListContent}  
         data={subscriptions}
         renderItem={({item}) => (<SubscriptionItem item={item} onDelete={handleDelete}/>)}
+        ListEmptyComponent={<NoSubscriptionsFound/>}
+        showsVerticalScrollIndicator={false}
         refreshControl={<RefreshControl refreshing={loading} onRefresh={loadData} colors={['#4a90e2']}/>}
       />
     </View>

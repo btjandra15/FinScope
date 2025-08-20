@@ -6,6 +6,8 @@ import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS } from '@/constants/colors';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import RNPickerSelect from "react-native-picker-select";
 
 const CATEGORIES = [
   { id: "entertainment", name: "Entertainment", icon: "film" },
@@ -21,8 +23,32 @@ const CreateSubscriptions = () => {
   const [renewalDate, setRenewalDate] = useState('');
   const [status, setStatus] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [activeField, setActiveField] = useState<"start" | "renewal" | null>(null);
   const router = useRouter();
   const {user} = useUser();
+
+  const showDatePicker = (field: "start" | "renewal") => {
+    setActiveField(field);
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+    setActiveField(null);
+  };
+
+  const handleConfirm = (date: Date) => {
+    const formatted = date.toISOString().split("T")[0]; // YYYY-MM-DD
+
+    if (activeField === "start") {
+      setStartDate(formatted);
+    } else if (activeField === "renewal") {
+      setRenewalDate(formatted);
+    }
+
+    hideDatePicker();
+  }
 
   const handleCreate = async() => {
     if(!serviceName) return Alert.alert("Please enter a Service Name");
@@ -47,8 +73,6 @@ const CreateSubscriptions = () => {
     setIsLoading(true);
 
     try {
-      console.log(user?.id)
-
       const res = await fetch("https://finscope-km3n.onrender.com/api/subscriptions", {
         method: "POST",
         headers: {"Content-Type": "application/json" },
@@ -71,7 +95,7 @@ const CreateSubscriptions = () => {
       }
       
       Alert.alert('Subscription created successfully');
-      router.back();
+      router.push('/(root)/subscriptions');
     } catch (error) {
       console.error("Error creating subscription: ", error)
     }finally{
@@ -163,52 +187,97 @@ const CreateSubscriptions = () => {
         <View style={styles.inputContainer}> 
           <Ionicons name="create-outline" size={20} color={COLORS.textLight} style={styles.inputIcon}/>
 
-          <TextInput 
-            style={styles.input} 
-            placeholder='Billing Cycle' 
-            placeholderTextColor={COLORS.textLight} 
-            value={billingCycle} 
-            onChangeText={setBillingCycle}
-          />
+          <View style={{flex: 1}}>
+            <RNPickerSelect 
+              value={status}
+              onValueChange={(value) => setStatus(value)}
+              placeholder={{
+                label: "Select Billing Cycle...",
+                value: null,
+                color: COLORS.textLight,
+              }}
+              items={[
+                { label: "Monthly", value: "Monthly" },
+                { label: "Yearly", value: "Yearly" },
+              ]}  
+              style={{
+                inputAndroid: {
+                  color: COLORS.text,
+                  paddingVertical: 8,
+                  paddingHorizontal: 10,
+                },
+                inputIOS: {
+                  color: COLORS.text,
+                  paddingVertical: 8,
+                  paddingHorizontal: 10,
+                },
+                placeholder: {
+                  color: COLORS.textLight,
+                },
+              }}
+              useNativeAndroidPickerStyle={false}
+            />
+          </View>
         </View>
 
         {/* START DATE INPUT */}
         <View style={styles.inputContainer}> 
-          <Ionicons name="create-outline" size={20} color={COLORS.textLight} style={styles.inputIcon}/>
+          <Ionicons name="calendar-outline" size={20} color={COLORS.textLight} style={styles.inputIcon}/>
 
-          <TextInput 
-            style={styles.input} 
-            placeholder='Start Date' 
-            placeholderTextColor={COLORS.textLight} 
-            value={startDate} 
-            onChangeText={setStartDate}
-          />
+          <TouchableOpacity style={styles.input} onPress={() => showDatePicker("start")}>
+            <Text style={{color: startDate ? COLORS.text : COLORS.textLight}}>{startDate || "Start Date"}</Text>
+          </TouchableOpacity>
+
+          <DateTimePickerModal isVisible={isDatePickerVisible} mode='date' onConfirm={handleConfirm} onCancel={hideDatePicker}/>
         </View>
 
         {/* RENEWAL DATE INPUT */}
         <View style={styles.inputContainer}> 
-          <Ionicons name="create-outline" size={20} color={COLORS.textLight} style={styles.inputIcon}/>
+          <Ionicons name="calendar-outline" size={20} color={COLORS.textLight} style={styles.inputIcon}/>
 
-          <TextInput 
-            style={styles.input} 
-            placeholder='Renewal Date' 
-            placeholderTextColor={COLORS.textLight} 
-            value={renewalDate} 
-            onChangeText={setRenewalDate}
-          />
+          <TouchableOpacity style={styles.input} onPress={() => showDatePicker('renewal')}>
+            <Text style={{color: startDate ? COLORS.text : COLORS.textLight}}>{renewalDate || "Renewal Date"}</Text>
+          </TouchableOpacity>
+
+          <DateTimePickerModal isVisible={isDatePickerVisible} mode='date' onConfirm={handleConfirm} onCancel={hideDatePicker}/>
         </View>
 
         {/*STATUS INPUT */}
         <View style={styles.inputContainer}> 
           <Ionicons name="create-outline" size={20} color={COLORS.textLight} style={styles.inputIcon}/>
 
-          <TextInput 
-            style={styles.input} 
-            placeholder='Status' 
-            placeholderTextColor={COLORS.textLight} 
-            value={status} 
-            onChangeText={setStatus}
-          />
+          <View style={{flex: 1}}>
+            <RNPickerSelect 
+              value={status}
+              onValueChange={(value) => setStatus(value)}
+              placeholder={{
+                label: "Select Status...",
+                value: null,
+                color: COLORS.textLight,
+              }}
+              items={[
+                { label: "Active", value: "Active" },
+                { label: "Paused", value: "Paused" },
+                { label: "Canceled", value: "Canceled" },
+              ]}  
+              style={{
+                inputAndroid: {
+                  color: COLORS.text,
+                  paddingVertical: 8,
+                  paddingHorizontal: 10,
+                },
+                inputIOS: {
+                  color: COLORS.text,
+                  paddingVertical: 8,
+                  paddingHorizontal: 10,
+                },
+                placeholder: {
+                  color: COLORS.textLight,
+                },
+              }}
+              useNativeAndroidPickerStyle={false}
+            />
+          </View>
         </View>
       </View>
     </KeyboardAwareScrollView>

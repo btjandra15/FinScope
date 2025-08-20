@@ -1,4 +1,5 @@
 import { useUser } from "@clerk/clerk-expo";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { Redirect, Stack, Tabs } from "expo-router";
 
 export default function Layout () {
@@ -12,23 +13,10 @@ export default function Layout () {
                 name="index"
                 options={{
                     title: 'Home',
-                    headerShown: false,   
-                }}
-            />
-
-            <Tabs.Screen
-                name="createTransactions"
-                options={{
-                    href: null,
-                    headerShown: false,
-                }}
-            />
-
-            <Tabs.Screen
-                name="createSubscriptions"
-                options={{
-                    href: null,
-                    headerShown: false,
+                    headerShown: false,  
+                    tabBarIcon: ({color, size}) => (
+                        <Ionicons name="home-outline" size={size} color={color}/>
+                    ),
                 }}
             />
 
@@ -37,6 +25,9 @@ export default function Layout () {
                 options={{
                     title: 'Subscriptions',
                     headerShown: false,   
+                    tabBarIcon: ({color, size}) => (
+                        <Ionicons name="calendar-outline" size={size} color={color}/>
+                    ),
                 }}
             />
         </Tabs>

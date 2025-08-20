@@ -15,8 +15,8 @@ const Header = ({addType = "transaction"}: HeaderProps) => {
     const {user} = useUser();
 
     const handleAdd = () => {
-        if(addType === "transaction") router.push('/createTransactions');
-        if(addType === "subscription") router.push('/createSubscriptions');
+        if(addType === "transaction") router.push('/(create)/createTransactions');
+        if(addType === "subscription") router.push('/(create)/createSubscriptions');
     }
 
     return (

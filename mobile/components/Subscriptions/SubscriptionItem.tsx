@@ -48,7 +48,7 @@ const SubscriptionItem: React.FC<SubscriptionItemProps> = ({item, onDelete}) => 
                         -${Math.abs(parseFloat(String(item.amount)))}
                     </Text>
 
-                    <Text style={styles.transactionDate}>{formatDate(item.renewal_date)}</Text>
+                    <Text style={styles.transactionDate}>Upcoming: {formatDate(item.renewal_date)}</Text>
                 </View>
             </TouchableOpacity>
 
