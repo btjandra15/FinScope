@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "finscope",
-    "slug": "Fin Scope",
+    "slug": "finscope",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -37,6 +37,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "71c4ed79-8206-4028-b443-abf98e3ce3bd"
+      }
+    },
+    "owner": "btjandra21"
   }
 }
