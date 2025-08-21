@@ -10,11 +10,22 @@ import NoSubscriptionsFound from '@/components/Subscriptions/NoSubscriptionsFoun
 
 const Subscriptions = () => {
   const {user} = useUser();
-  const { subscriptions, summary, loading, loadData, deleteSubscription } = useSubscriptions(user?.id);
+  const futureMonths = 5;
 
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
+  type Subscription = {
+    id: string | number;
+    renewal_date: string | Date;
+    // add other properties as needed
+    [key: string]: any;
+  };
+
+  const { subscriptions, summary, loading, loadData, deleteSubscription } = useSubscriptions(user?.id) as unknown as {
+    subscriptions: Subscription[];
+    summary: any;
+    loading: boolean;
+    loadData: () => void;
+    deleteSubscription: (id: string | number) => void;
+  };
 
   const handleDelete = (id: string | number) => {
     Alert.alert('Delete Subscription', 'Are you sure you want to delete this subscription?', [
@@ -22,6 +33,28 @@ const Subscriptions = () => {
       { text: 'Delete', style: 'destructive', onPress: () => deleteSubscription(id) }
     ])
   }
+  
+  const upcomingCharges = subscriptions.flatMap((sub, subIndex) => {
+    const renewalDate = new Date(sub.renewal_date);
+
+    return Array.from({ length: futureMonths }, (_, i) => {
+      const nextDate = new Date(renewalDate);
+
+      nextDate.setMonth(renewalDate.getMonth() + i);
+
+      return {
+        ...sub,
+        renewal_date: nextDate,
+        uniqueId: `${sub.id}-${nextDate.getTime()}-${Math.random()}`, // unique key for FlatList
+      };
+    });
+  }).sort((a, b) => {
+      return new Date(a.renewal_date).getTime() - new Date(b.renewal_date).getTime();
+  });
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   return (
     <View style={styles.container}>
@@ -30,14 +63,15 @@ const Subscriptions = () => {
         <SubscriptionCard summary={summary}/>
 
         <View style={styles.transactionsHeaderContainer}>
-          <Text style={styles.sectionTitle}>Recent Subscriptions</Text>
+          <Text style={styles.sectionTitle}>Upcoming Subscriptions</Text>
         </View>
       </View>
 
       <FlatList
         style={styles.transactionsList}
         contentContainerStyle={styles.transactionsListContent}  
-        data={subscriptions}
+        keyExtractor={(_, index) => `charge-${index}`}
+        data={upcomingCharges}
         renderItem={({item}) => (<SubscriptionItem item={item} onDelete={handleDelete}/>)}
         ListEmptyComponent={<NoSubscriptionsFound/>}
         showsVerticalScrollIndicator={false}

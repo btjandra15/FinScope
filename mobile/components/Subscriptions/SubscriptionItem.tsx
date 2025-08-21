@@ -30,6 +30,12 @@ interface SubscriptionItemProps {
 
 const SubscriptionItem: React.FC<SubscriptionItemProps> = ({item, onDelete}) => {
     const iconName = (CATEGORY_ICONS[item.category as keyof typeof CATEGORY_ICONS] as keyof typeof CATEGORY_ICONS | 'pricetag-outline');
+    const renewalDate = new Date(item.renewal_date);
+
+    const formattedDate = renewalDate.toLocaleDateString('en-US', {
+        month: 'short', 
+        day: 'numeric'
+    });
 
     return (
         <View style={styles.transactionCard} key={item.id}>
@@ -48,7 +54,7 @@ const SubscriptionItem: React.FC<SubscriptionItemProps> = ({item, onDelete}) => 
                         -${Math.abs(parseFloat(String(item.amount)))}
                     </Text>
 
-                    <Text style={styles.transactionDate}>Upcoming: {formatDate(item.renewal_date)}</Text>
+                    <Text style={styles.transactionDate}>Due {formattedDate}</Text>
                 </View>
             </TouchableOpacity>
 
